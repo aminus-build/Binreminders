@@ -1,0 +1,27 @@
+name: Refresh bin dates and send reminders
+on:
+  schedule:
+    - cron: '15 17 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm run sync
+        env:
+          BIN_ADDRESS: ${{ secrets.BIN_ADDRESS }}
+          BIN_POSTCODE: ${{ secrets.BIN_POSTCODE }}
+          BIN_UPRN: ${{ secrets.BIN_UPRN }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Refresh Erewash collection dates
+          file_pattern: data/collections.json

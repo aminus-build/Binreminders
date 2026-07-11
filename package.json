@@ -1,0 +1,1 @@
+{"name":"kerbside-erewash","private":true,"type":"module","scripts":{"sync":"node scripts/sync-collections.mjs"}}
