@@ -117,5 +117,10 @@ async function load() {
 }
 
 $('refreshButton').onclick = load;
+const adminLink = document.createElement('a');
+adminLink.className = 'admin-link';
+adminLink.href = 'admin.html';
+adminLink.textContent = 'Admin';
+document.querySelector('.topbar').append(adminLink);
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 load();
