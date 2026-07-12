@@ -83,26 +83,33 @@ async function fetchCollections() {
 }
 
 async function sendReminder(collections) {
+  const isTest = process.env.SEND_TEST_EMAIL === 'true';
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const due = collections.filter(
     (collection) => collection.date === tomorrow.toISOString().slice(0, 10),
   );
 
-  if (
-    !due.length ||
-    !process.env.RESEND_API_KEY ||
-    !process.env.RECIPIENT_EMAIL
-  ) {
+  if (!isTest && !due.length) {
     return;
   }
 
-  const names = due
-    .map(
-      (collection) =>
-        collection.type[0].toUpperCase() + collection.type.slice(1) + ' bin',
-    )
-    .join(' and ');
+  if (!process.env.RESEND_API_KEY || !process.env.RECIPIENT_EMAIL) {
+    throw new Error(
+      'RESEND_API_KEY and RECIPIENT_EMAIL must be configured to send email.',
+    );
+  }
+
+  const names = isTest
+    ? 'test bin reminder'
+    : due
+        .map(
+          (collection) =>
+            collection.type[0].toUpperCase() +
+            collection.type.slice(1) +
+            ' bin',
+        )
+        .join(' and ');
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
@@ -112,11 +119,14 @@ async function sendReminder(collections) {
     body: JSON.stringify({
       from: process.env.EMAIL_FROM || 'Kerbside <onboarding@resend.dev>',
       to: [process.env.RECIPIENT_EMAIL],
-      subject: 'Bin reminder: ' + names + ' tomorrow',
-      html:
-        '<h1>Put out your ' +
-        names +
-        '</h1><p>Collection is tomorrow. Please have bins ready by 7am.</p>',
+      subject: isTest
+        ? 'Kerbside test email'
+        : 'Bin reminder: ' + names + ' tomorrow',
+      html: isTest
+        ? '<h1>Kerbside email is working</h1><p>This is a test reminder. No bins need to be put out because of this message.</p>'
+        : '<h1>Put out your ' +
+          names +
+          '</h1><p>Collection is tomorrow. Please have bins ready by 7am.</p>',
     }),
     signal: AbortSignal.timeout(30_000),
   });
@@ -124,6 +134,7 @@ async function sendReminder(collections) {
   if (!response.ok) {
     throw new Error('Email failed: ' + (await response.text()));
   }
+  console.log(isTest ? 'Sent test email.' : 'Sent collection reminder email.');
 }
 
 const collections = await fetchCollections();
