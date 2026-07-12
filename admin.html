@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#173c2d">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <title>Kerbside — Admin</title>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark">K</span> Kerbside</a>
+    <span class="address-chip">Admin</span>
+  </header>
+  <main class="admin-main">
+    <section id="loginPanel" class="card admin-login">
+      <p class="eyebrow">RESTRICTED AREA</p>
+      <h1>Admin sign in</h1>
+      <p class="lede">Use your Supabase account to view registered households and users.</p>
+      <form id="loginForm">
+        <label>Email<input id="email" type="email" autocomplete="username" required></label>
+        <label>Password<input id="password" type="password" autocomplete="current-password" required></label>
+        <button class="primary" type="submit">Sign in</button>
+      </form>
+      <p id="loginStatus" class="form-status" aria-live="polite"></p>
+      <a class="admin-back" href="index.html">← Back to collections</a>
+    </section>
+
+    <section id="adminPanel" hidden>
+      <div class="admin-heading">
+        <div><p class="eyebrow">ADMIN OVERVIEW</p><h1>Households &amp; users</h1></div>
+        <div class="admin-actions"><button id="reloadButton" class="quiet-button">↻ Refresh</button><button id="signOutButton" class="quiet-button">Sign out</button></div>
+      </div>
+      <p id="adminStatus" class="status" aria-live="polite">Loading…</p>
+      <div id="summary" class="summary-grid"></div>
+      <section class="admin-section"><h2>Households</h2><div id="households" class="admin-list"></div></section>
+      <section class="admin-section"><h2>Users</h2><div id="users" class="admin-list"></div></section>
+    </section>
+  </main>
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
