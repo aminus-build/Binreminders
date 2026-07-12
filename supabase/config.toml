@@ -1,0 +1,5 @@
+project_id = "liicfwhbrgcuugvlfnof"
+
+[functions.sync-collections]
+verify_jwt = false
+

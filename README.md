@@ -4,6 +4,8 @@ A local-first progressive web app for Erewash bin-day reminders.
 
 Detailed implementation documentation is available in [docs/FUNCTIONS.md](docs/FUNCTIONS.md).
 
+The database and server-function setup is documented in [docs/SUPABASE.md](docs/SUPABASE.md).
+
 ## Run locally
 
 Serve this folder over HTTP (service workers do not run from `file://`):
