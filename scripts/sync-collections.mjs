@@ -19,6 +19,23 @@ const serviceTypes = new Map([
   ['Food Collection Service', 'green'],
 ]);
 
+function correctErewashDate(date) {
+  const followingDay = new Date(date + 'T12:00:00Z');
+  followingDay.setUTCDate(followingDay.getUTCDate() + 1);
+  const londonOffset = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/London',
+    timeZoneName: 'shortOffset',
+  })
+    .formatToParts(followingDay)
+    .find((part) => part.type === 'timeZoneName')?.value;
+
+  // The upstream Erewash integration serializes local BST midnight as the
+  // preceding UTC date. GMT dates do not have this one-day offset.
+  return londonOffset === 'GMT+1'
+    ? followingDay.toISOString().slice(0, 10)
+    : date;
+}
+
 async function fetchCollections() {
   const url = new URL(API_BASE + '/lookup/' + UPRN);
   url.searchParams.set('council', COUNCIL);
@@ -58,7 +75,7 @@ async function fetchCollections() {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(item.date)) {
       throw new Error('UK Bin Day returned an invalid date: ' + item.date);
     }
-    collections.push({ type, date: item.date });
+    collections.push({ type, date: correctErewashDate(item.date) });
   }
 
   if (ignored.size) {

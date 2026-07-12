@@ -166,8 +166,19 @@ The function:
 It returns only normalized records shaped like:
 
 ```json
-{ "type": "blue", "date": "2026-07-15" }
+{ "type": "blue", "date": "2026-07-16" }
 ```
+
+### `correctErewashDate(date)`
+
+Corrects a timezone bug in the upstream Erewash integration. During British Summer Time, local midnight is serialized as 23:00 UTC on the preceding date, causing a Thursday collection to be returned as Wednesday. The function:
+
+- calculates the following calendar day;
+- checks that day in the `Europe/London` timezone;
+- advances the API date only when the London offset is `GMT+1`;
+- leaves dates unchanged during GMT.
+
+This seasonal correction preserves Thursday winter collections and avoids incorrectly moving them to Friday.
 
 ### `sendReminder(collections)`
 
