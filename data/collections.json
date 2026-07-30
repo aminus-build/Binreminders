@@ -1,19 +1,7 @@
 {
-  "updatedAt": "2026-07-29T20:33:29.946Z",
+  "updatedAt": "2026-07-30T20:50:48.813Z",
   "emailConfigured": true,
   "collections": [
-    {
-      "type": "green",
-      "date": "2026-07-30"
-    },
-    {
-      "type": "brown",
-      "date": "2026-07-30"
-    },
-    {
-      "type": "blue",
-      "date": "2026-07-30"
-    },
     {
       "type": "black",
       "date": "2026-08-06"
@@ -229,6 +217,18 @@
     {
       "type": "black",
       "date": "2027-01-07"
+    },
+    {
+      "type": "green",
+      "date": "2027-01-07"
+    },
+    {
+      "type": "green",
+      "date": "2027-01-14"
+    },
+    {
+      "type": "blue",
+      "date": "2027-01-14"
     }
   ]
 }
