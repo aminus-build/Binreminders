@@ -1,16 +1,8 @@
 {
-  "updatedAt": "2026-08-05T20:47:39.586Z",
+  "updatedAt": "2026-08-07T01:52:17.099Z",
   "emailConfigured": true,
   "collections": [
     {
-      "type": "black",
-      "date": "2026-08-06"
-    },
-    {
-      "type": "green",
-      "date": "2026-08-06"
-    },
-    {
       "type": "green",
       "date": "2026-08-13"
     },
@@ -229,6 +221,14 @@
     {
       "type": "blue",
       "date": "2027-01-14"
+    },
+    {
+      "type": "black",
+      "date": "2027-01-21"
+    },
+    {
+      "type": "green",
+      "date": "2027-01-21"
     }
   ]
 }
